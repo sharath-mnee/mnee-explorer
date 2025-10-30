@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { Header } from "./components/layout/Header";
+import { Footer } from "./components/layout/Footer";
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ const AppContent = () => {
       <Header />
       <main className="flex-1">
       </main>
+      <Footer />
     </div>
   );
 };
