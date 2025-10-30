@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import searchReducer from './slices/searchSlice';
 import themeReducer from './slices/themeSlice';
+import transactionsReducer from './slices/transactionSlice';
+import analyticsReducer from './slices/analyticsSlice';
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
     theme: themeReducer,
+    analytics: analyticsReducer,
+    transactions: transactionsReducer,
   },
 });
 
