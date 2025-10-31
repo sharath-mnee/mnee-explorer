@@ -14,7 +14,7 @@ import {
   ArrowUpCircle,
   Search
 } from 'lucide-react';
-import { formatNumber, formatCurrency, formatMNEE, formatPercentage, formatDuration } from '@/utils/formatters';
+import { formatNumber, formatCurrency, formatMNEE, formatDuration } from '@/utils/formatters';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Link } from 'react-router-dom';
 import { formatTimeAgo, formatTxid } from '@/utils/formatters';
@@ -69,7 +69,7 @@ const Dashboard = () => {
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold mb-2">MNEE Explorer</h1>
-              <p className="text-muted-foreground">Real-time analytics for MNEE on BSV</p>
+              <p className="text-muted-foreground">Real-time analytics for MNEE network</p>
             </div>
           </div>
           <form onSubmit={handleSearch} className="hidden md:block relative">
