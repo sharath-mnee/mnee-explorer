@@ -32,7 +32,7 @@ const Transactions = () => {
   const totalPages = Math.ceil(filteredTransactions.length / perPage);
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Transactions</h1>

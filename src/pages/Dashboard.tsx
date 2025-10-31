@@ -62,7 +62,7 @@ const Dashboard = () => {
     };
 
   return (
-    <div className="container py-8 space-y-8">
+    <div className="w-full py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950/30 dark:via-yellow-950/30 dark:to-orange-950/30 rounded-2xl p-8 border border-amber-200 dark:border-amber-800/50">
         <div className="flex items-center justify-between">

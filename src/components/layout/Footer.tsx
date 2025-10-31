@@ -5,7 +5,7 @@ import { FOOTER_NAME, BLOCKCHAIN_NAME, APP_NAME } from '@/utils/constants';
 export const Footer = () => {
   return (
     <footer className="border-t bg-card mt-auto">
-      <div className="container py-8">
+      <div className="px-4 w-full py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-semibold mb-4">{FOOTER_NAME}</h3>

@@ -13,7 +13,7 @@ const TransactionDetails = () => {
 
   if (!tx) {
     return (
-      <div className="container py-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Card>
           <CardContent className="py-12 text-center">
             <AlertCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
@@ -28,7 +28,7 @@ const TransactionDetails = () => {
   }
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold mb-2">Transaction Details</h1>
