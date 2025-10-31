@@ -143,7 +143,7 @@ const Dashboard = () => {
           <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
             <CardHeader>
               <CardTitle className="text-base font-semibold text-muted-foreground">
-                Average Stats
+                Transaction Stats
               </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -165,55 +165,77 @@ const Dashboard = () => {
       </div>
 
       {/* General Information */}
-      <Card>
-        <CardHeader>
-          <CardTitle>General Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Total Supply</p>
-              <p className="text-2xl font-bold">{formatMNEE(generalInfo.totalSupply, 0)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Holder Count</p>
-              <p className="text-2xl font-bold">{formatNumber(generalInfo.holderCount, 0)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Current Price</p>
-              <p className="text-2xl font-bold">{formatCurrency(generalInfo.currentPrice, 4)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Market Cap</p>
-              <p className="text-2xl font-bold">{formatCurrency(generalInfo.marketCap, 0)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">FDV</p>
-              <p className="text-2xl font-bold">{formatCurrency(generalInfo.fullyDilutedValue, 0)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Peg Deviation</p>
-              <p className={`text-2xl font-bold ${Math.abs(generalInfo.pegDeviation) < 0.5 ? 'text-success' : 'text-warning'}`}>
-                {formatPercentage(generalInfo.pegDeviation)}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Total Burned</p>
-              <p className="text-2xl font-bold">{formatMNEE(generalInfo.totalBurned, 0)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">MNEE V2 Response Time (Avg)</p>
-              <p className="text-2xl font-bold">{formatDuration(generalInfo.mneeV2ResponseTime.avg)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Response Time (Min/Max)</p>
-              <p className="text-lg font-semibold">
-                {formatDuration(generalInfo.mneeV2ResponseTime.min)} / {formatDuration(generalInfo.mneeV2ResponseTime.max)}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">General Information</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Token Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Supply</p>
+                <p className="text-2xl font-bold">{generalInfo.totalSupply}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Market Cap</p>
+                <p className="text-2xl font-bold">{formatCurrency(generalInfo.marketCap, 0)}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">FDV</p>
+                <p className="text-2xl font-bold">{formatCurrency(generalInfo.fullyDilutedValue, 0)}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Performance Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">MNEE V2 Response Time (Avg)</p>
+                <p className="text-2xl font-bold">
+                  {formatDuration(generalInfo.mneeV2ResponseTime.avg)}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Response Time (Min / Max)</p>
+                <p className="text-lg font-semibold">
+                  {formatDuration(generalInfo.mneeV2ResponseTime.min)} /{" "}
+                  {formatDuration(generalInfo.mneeV2ResponseTime.max)}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Holder Data
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Holder Count</p>
+                <p className="text-2xl font-bold">
+                  {formatNumber(generalInfo.holderCount, 0)}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Total Burned</p>
+                <p className="text-2xl font-bold">
+                  {formatMNEE(generalInfo.totalBurned, 0)}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
       {/* Charts */}
       <div className="grid gap-6 lg:grid-cols-2">
@@ -289,17 +311,29 @@ const Dashboard = () => {
         <CardContent>
           <div className="space-y-4">
             {recentTransactions.map((tx) => (
-              <div key={tx.txid} className="flex items-center justify-between border-b pb-4 last:border-0">
+              <div
+                key={tx.txid}
+                className="flex items-center justify-between border-b pb-4 last:border-0"
+              >
                 <div className="flex items-center gap-4">
-                  <div className={`px-2 py-1 rounded text-xs font-medium ${
-                    tx.type === 'mint' ? 'bg-success/10 text-success' :
-                    tx.type === 'burn' ? 'bg-destructive/10 text-destructive' :
-                    'bg-primary/10 text-primary'
-                  }`}>
+                  {/* Consistent-width badge */}
+                  <div
+                    className={`w-20 text-center px-2 py-1 rounded text-xs font-medium tracking-wide ${
+                      tx.type === "mint"
+                        ? "bg-success/10 text-success"
+                        : tx.type === "burn"
+                        ? "bg-destructive/10 text-destructive"
+                        : "bg-primary/10 text-primary"
+                    }`}
+                  >
                     {tx.type.toUpperCase()}
                   </div>
+
                   <div>
-                    <Link to={`/tx/${tx.txid}`} className="font-mono text-sm hover:text-primary">
+                    <Link
+                      to={`/tx/${tx.txid}`}
+                      className="font-mono text-sm hover:text-primary"
+                    >
                       {formatTxid(tx.txid)}
                     </Link>
                     <p className="text-xs text-muted-foreground">
@@ -307,9 +341,12 @@ const Dashboard = () => {
                     </p>
                   </div>
                 </div>
+
                 <div className="text-right">
                   <p className="font-semibold">{formatMNEE(tx.amount, 2)}</p>
-                  <p className="text-xs text-muted-foreground">{formatTimeAgo(tx.timestamp)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatTimeAgo(tx.timestamp)}
+                  </p>
                 </div>
               </div>
             ))}
