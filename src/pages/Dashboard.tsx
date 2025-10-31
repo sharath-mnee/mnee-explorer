@@ -88,46 +88,80 @@ const Dashboard = () => {
       {/* 24h Metrics */}
       <div>
         <h2 className="text-xl font-semibold mb-4">24 Hour Overview</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Transaction Volume"
-            value={formatCurrency(dashboardMetrics.transactionVolume24h, 0)}
-            subtitle={`${formatNumber(dashboardMetrics.transactionCount24h)} transactions`}
-            icon={TrendingUp}
-          />
-          <StatCard
-            title="Active Addresses"
-            value={formatNumber(dashboardMetrics.activeAddresses24h, 0)}
-            subtitle="Unique addresses"
-            icon={Users}
-          />
-          <StatCard
-            title="Mint Activity"
-            value={formatMNEE(dashboardMetrics.mintActivity24h, 0)}
-            subtitle="New tokens minted"
-            icon={ArrowUpCircle}
-          />
-          <StatCard
-            title="Burn Activity"
-            value={formatMNEE(dashboardMetrics.burnActivity24h, 0)}
-            subtitle="Tokens burned"
-            icon={Flame}
-          />
-        </div>
-      </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Transaction Volume & Active Addresses */}
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Network Activity
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StatCard
+                title="Transaction Volume"
+                value={formatCurrency(dashboardMetrics.transactionVolume24h, 0)}
+                subtitle={`${formatNumber(dashboardMetrics.transactionCount24h)} transactions`}
+                icon={TrendingUp}
+                className="bg-transparent shadow-none border-none"
+              />
+              <StatCard
+                title="Active Addresses count"
+                value={formatNumber(dashboardMetrics.activeAddresses24h, 0)}
+                subtitle="Unique addresses"
+                icon={Users}
+                className="bg-transparent shadow-none border-none"
+              />
+            </CardContent>
+          </Card>
 
-      {/* Additional Metrics */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <StatCard
-          title="Avg Transaction Fee"
-          value={formatMNEE(dashboardMetrics.avgTransactionFee, 4)}
-          icon={DollarSign}
-        />
-        <StatCard
-          title="Avg MNEE Transferred"
-          value={formatMNEE(dashboardMetrics.avgMneeTransferred, 2)}
-          icon={Activity}
-        />
+          {/* Mint & Burn Activity */}
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Token Activity
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StatCard
+                title="Mint Activity"
+                value={formatMNEE(dashboardMetrics.mintActivity24h, 0)}
+                subtitle="New tokens minted"
+                icon={ArrowUpCircle}
+                className="bg-transparent shadow-none border-none"
+              />
+              <StatCard
+                title="Burn Activity"
+                value={formatMNEE(dashboardMetrics.burnActivity24h, 0)}
+                subtitle="Tokens burned"
+                icon={Flame}
+                className="bg-transparent shadow-none border-none"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Transaction Fee & MNEE Transferred */}
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-muted-foreground">
+                Average Stats
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <StatCard
+                title="Avg Transaction Fee"
+                value={formatMNEE(dashboardMetrics.avgTransactionFee, 4)}
+                icon={DollarSign}
+                className="bg-transparent shadow-none border-none"
+              />
+              <StatCard
+                title="Avg MNEE Transferred"
+                value={formatMNEE(dashboardMetrics.avgMneeTransferred, 2)}
+                icon={Activity}
+                className="bg-transparent shadow-none border-none"
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* General Information */}
