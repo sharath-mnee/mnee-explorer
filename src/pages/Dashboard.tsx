@@ -64,20 +64,22 @@ const Dashboard = () => {
   return (
     <div className="w-full py-8 px-4 sm:px-6 lg:px-8 space-y-8">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950/30 dark:via-yellow-950/30 dark:to-orange-950/30 rounded-2xl p-8 border border-amber-200 dark:border-amber-800/50">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">MNEE Explorer</h1>
-              <p className="text-muted-foreground">Real-time analytics for MNEE network</p>
-            </div>
-          </div>
-          <form onSubmit={handleSearch} className="hidden md:block relative">
+      <div 
+        className="relative rounded-2xl p-8 border border-amber-200 dark:border-amber-800/50 bg-contain bg-left bg-no-repeat"
+        style={{
+          backgroundImage: "url('/mnee-bg.svg')",
+          backgroundPosition: 'left 20px center'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950/30 dark:via-yellow-950/30 dark:to-orange-950/30 rounded-2xl -z-10" />
+        
+        <div className="relative z-10 flex justify-end"> 
+          <form onSubmit={handleSearch} className="w-full md:w-auto relative">
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search by Address / Txn Hash / Block"
-              className="w-[500px] h-12 pl-12 text-base"
+              className="w-full md:w-[500px] h-12 pl-12 text-base"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
