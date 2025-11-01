@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import TransactionDetails from "./pages/TransactionDetails";
 import BlockDetails from "./pages/BlockDetails";
+import AddressDetails from "./pages/AddressDetails";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const AppContent = () => {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/tx/:txid" element={<TransactionDetails />} />
           <Route path="/block/:height" element={<BlockDetails />} />
+          <Route path="/address/:address" element={<AddressDetails />} />
         </Routes>
       </main>
       <Footer />

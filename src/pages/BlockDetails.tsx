@@ -14,7 +14,7 @@ const BlockDetails = () => {
 
   if (!block) {
     return (
-      <div className="container py-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <Card>
           <CardContent className="py-12 text-center">
             <AlertCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
@@ -31,7 +31,7 @@ const BlockDetails = () => {
   const blockTransactions = transactions.filter((tx) => tx.blockHeight === block.height);
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="w-full py-8 px-4 sm:px-6 lg:px-8 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">

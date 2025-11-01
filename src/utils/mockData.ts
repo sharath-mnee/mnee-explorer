@@ -70,7 +70,7 @@ export const generateMockBlocks = (count: number): Block[] => {
     blocks.push({
       height: 800000 - i,
       hash: generateRandomHash(),
-      timestamp: now - (i * 600000), // ~10 min per block
+      timestamp: now - (i * 600000),
       totalMneeTransferred: totalTransferred,
       transactionCount: txCount,
       uniqueAddresses: Math.floor(txCount * 0.7),

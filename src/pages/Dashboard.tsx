@@ -105,7 +105,7 @@ const Dashboard = () => {
                 className="bg-transparent shadow-none border-none"
               />
               <StatCard
-                title="Active Addresses count"
+                title="Active Addresses"
                 value={formatNumber(dashboardMetrics.activeAddresses24h, 0)}
                 subtitle="Unique addresses"
                 icon={Users}
