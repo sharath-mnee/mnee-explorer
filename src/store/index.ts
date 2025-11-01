@@ -3,6 +3,7 @@ import searchReducer from './slices/searchSlice';
 import themeReducer from './slices/themeSlice';
 import transactionsReducer from './slices/transactionSlice';
 import analyticsReducer from './slices/analyticsSlice';
+import blocksReducer from './slices/blockSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     theme: themeReducer,
     analytics: analyticsReducer,
     transactions: transactionsReducer,
+    blocks: blocksReducer
   },
 });
 

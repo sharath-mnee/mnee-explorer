@@ -9,6 +9,7 @@ import { Footer } from "./components/layout/Footer";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import TransactionDetails from "./pages/TransactionDetails";
+import BlockDetails from "./pages/BlockDetails";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const AppContent = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/tx/:txid" element={<TransactionDetails />} />
+          <Route path="/block/:height" element={<BlockDetails />} />
         </Routes>
       </main>
       <Footer />
