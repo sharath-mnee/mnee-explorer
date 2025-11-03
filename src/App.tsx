@@ -11,6 +11,7 @@ import Transactions from "./pages/Transactions";
 import TransactionDetails from "./pages/TransactionDetails";
 import BlockDetails from "./pages/BlockDetails";
 import AddressDetails from "./pages/AddressDetails";
+import Blocks from "./pages/Blocks";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const AppContent = () => {
           <Route path="/tx/:txid" element={<TransactionDetails />} />
           <Route path="/block/:height" element={<BlockDetails />} />
           <Route path="/address/:address" element={<AddressDetails />} />
+          <Route path="/blocks" element={<Blocks />} />
         </Routes>
       </main>
       <Footer />
