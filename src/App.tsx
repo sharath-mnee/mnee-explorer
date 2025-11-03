@@ -12,6 +12,7 @@ import TransactionDetails from "./pages/TransactionDetails";
 import BlockDetails from "./pages/BlockDetails";
 import AddressDetails from "./pages/AddressDetails";
 import Blocks from "./pages/Blocks";
+import Analytics from "./pages/Analytics";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const AppContent = () => {
           <Route path="/block/:height" element={<BlockDetails />} />
           <Route path="/address/:address" element={<AddressDetails />} />
           <Route path="/blocks" element={<Blocks />} />
+          <Route path="/analytics" element={<Analytics />}/>
         </Routes>
       </main>
       <Footer />
