@@ -52,7 +52,7 @@ export const Header = () => {
   
       <div className="flex items-center gap-6">
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link to="/" className="transition-colors hover:text-foreground/80 text-foreground">
+          <Link to="/" className="transition-colors hover:text-foreground/80 text-foreground/60">
             Dashboard
           </Link>
           <Link to="/transactions" className="transition-colors hover:text-foreground/80 text-foreground/60">

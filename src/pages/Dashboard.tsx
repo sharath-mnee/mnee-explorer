@@ -30,12 +30,12 @@ const Dashboard = () => {
   // Mock chart data
   const volumeData = Array.from({ length: 30 }, (_, i) => ({
     date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    volume: Math.random() * 5000000 + 2000000,
+    volume: Math.random() * 5000 + 20000,
   }));
 
   const supplyData = Array.from({ length: 30 }, (_, i) => ({
     date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    supply: 1000000000 + i * 1000000,
+    supply: 10000 + i * 1000,
   }));
 
   const avgTxData = Array.from({ length: 30 }, (_, i) => ({
@@ -239,120 +239,125 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Charts */}
       <div className="grid gap-6 lg:grid-cols-2">
+        {/* Recent Transactions */}
         <Card>
-          <CardHeader>
-            <CardTitle>Transaction Volume Over Time</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Recent Transactions</CardTitle>
+            <Link to="/transactions" className="text-sm text-primary hover:underline">
+              View all →
+            </Link>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={volumeData}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="date" className="text-xs" />
-                <YAxis className="text-xs" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                  formatter={(value: number) => formatCurrency(value, 0)}
-                />
-                <Line type="monotone" dataKey="volume" stroke="hsl(var(--primary))" strokeWidth={2} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Supply Growth</CardTitle>
-          </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={supplyData}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="date" className="text-xs" />
-                <YAxis className="text-xs" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                  formatter={(value: number) => formatMNEE(value, 0)}
-                />
-                <Area type="monotone" dataKey="supply" stroke="hsl(var(--chart-2))" fill="hsl(var(--chart-2) / 0.2)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+            <div className="space-y-3">
+              {recentTransactions.map((tx) => (
+                <div
+                  key={tx.txid}
+                  className="flex items-center justify-between border-b pb-3 last:border-0"
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`w-[88px] flex-shrink-0 text-center px-3 py-1.5 rounded text-xs font-medium tracking-wide ${
+                        tx.type === "mint"
+                          ? "bg-success/10 text-success"
+                          : tx.type === "burn"
+                          ? "bg-destructive/10 text-destructive"
+                          : "bg-primary/10 text-primary"
+                      }`}
+                    >
+                      {tx.type.toUpperCase()}
+                    </div>
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Average Transaction Value</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={avgTxData}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="date" className="text-xs" />
-                <YAxis className="text-xs" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                  formatter={(value: number) => formatMNEE(value, 2)}
-                />
-                <Bar dataKey="avg" fill="hsl(var(--chart-3))" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Transactions */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Recent Transactions</CardTitle>
-          <Link to="/transactions" className="text-sm text-primary hover:underline">
-            View all →
-          </Link>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentTransactions.map((tx) => (
-              <div
-                key={tx.txid}
-                className="flex items-center justify-between border-b pb-4 last:border-0"
-              >
-                <div className="flex items-center gap-4">
-                  {/* Consistent-width badge */}
-                  <div
-                    className={`w-20 text-center px-2 py-1 rounded text-xs font-medium tracking-wide ${
-                      tx.type === "mint"
-                        ? "bg-success/10 text-success"
-                        : tx.type === "burn"
-                        ? "bg-destructive/10 text-destructive"
-                        : "bg-primary/10 text-primary"
-                    }`}
-                  >
-                    {tx.type.toUpperCase()}
+                    <div>
+                      <Link
+                        to={`/tx/${tx.txid}`}
+                        className="font-mono text-sm hover:text-primary"
+                      >
+                        {formatTxid(tx.txid)}
+                      </Link>
+                      <p className="text-xs text-muted-foreground">
+                        Block #{tx.blockHeight}
+                      </p>
+                    </div>
                   </div>
 
-                  <div>
-                    <Link
-                      to={`/tx/${tx.txid}`}
-                      className="font-mono text-sm hover:text-primary"
-                    >
-                      {formatTxid(tx.txid)}
-                    </Link>
+                  <div className="text-right">
+                    <p className="font-semibold">{formatMNEE(tx.amount, 2)}</p>
                     <p className="text-xs text-muted-foreground">
-                      Block #{tx.blockHeight}
+                      {formatTimeAgo(tx.timestamp)}
                     </p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-                <div className="text-right">
-                  <p className="font-semibold">{formatMNEE(tx.amount, 2)}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatTimeAgo(tx.timestamp)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Right Side Charts */}
+        <div className="space-y-6">
+          {/* Transaction Volume Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Transaction Volume Over Time (30days)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={volumeData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="date" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                    formatter={(value: number) => formatCurrency(value, 0)}
+                  />
+                  <Line type="monotone" dataKey="volume" stroke="hsl(var(--primary))" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Supply Growth Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Supply Growth (30 days)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={250}>
+                <AreaChart data={supplyData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="date" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                    formatter={(value: number) => formatMNEE(value, 0)}
+                  />
+                  <Area type="monotone" dataKey="supply" stroke="hsl(var(--chart-2))" fill="hsl(var(--chart-2) / 0.2)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Average Transaction Value Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Average Transaction Value (30days)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={avgTxData}>
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <XAxis dataKey="date" className="text-xs" />
+              <YAxis className="text-xs" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+                formatter={(value: number) => formatMNEE(value, 2)}
+              />
+              <Bar dataKey="avg" fill="hsl(var(--chart-3))" />
+            </BarChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>
