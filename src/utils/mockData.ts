@@ -64,7 +64,7 @@ export const generateMockBlocks = (count: number): Block[] => {
   const now = Date.now();
   
   for (let i = 0; i < count; i++) {
-    const txCount = Math.floor(Math.random() * 50) + 5;
+    const txCount = Math.floor(Math.random() * 11) + 5;
     const totalTransferred = Math.random() * 100000 + 1000;
     
     blocks.push({

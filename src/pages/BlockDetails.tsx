@@ -28,7 +28,13 @@ const BlockDetails = () => {
     );
   }
 
-  const blockTransactions = transactions.filter((tx) => tx.blockHeight === block.height);
+  const txcount =block.transactionCount;
+  const blockTransactions = transactions.slice(0, txcount).map(tx => ({
+    txid: tx.txid,
+    blockHeight: tx.blockHeight,
+    type: tx.type as 'mint' | 'burn' | 'transfer',
+    amount: tx.amount
+  }));
 
   return (
     <div className="w-full py-8 px-4 sm:px-6 lg:px-8 space-y-6">
@@ -117,7 +123,7 @@ const BlockDetails = () => {
       </Card>
 
       {/* Transactions */}
-      <Card>
+     <Card>
         <CardHeader>
           <CardTitle>Transactions ({blockTransactions.length})</CardTitle>
         </CardHeader>
@@ -125,10 +131,10 @@ const BlockDetails = () => {
           <div className="divide-y">
             {blockTransactions.map((tx) => (
               <div key={tx.txid} className="p-4 hover:bg-muted/30 transition-colors">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
+                      className={`px-3 py-1 rounded text-xs font-medium w-20 text-center flex-shrink-0 ${
                         tx.type === 'mint'
                           ? 'bg-success/10 text-success'
                           : tx.type === 'burn'
@@ -140,12 +146,12 @@ const BlockDetails = () => {
                     </span>
                     <Link
                       to={`/tx/${tx.txid}`}
-                      className="font-mono text-sm text-primary hover:underline"
+                      className="font-mono text-sm text-primary hover:underline truncate"
                     >
                       {formatTxid(tx.txid)}
                     </Link>
                   </div>
-                  <p className="font-semibold">{formatMNEE(tx.amount, 2)}</p>
+                  <p className="font-semibold whitespace-nowrap">{formatMNEE(tx.amount, 2)}</p>
                 </div>
               </div>
             ))}
