@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { BarChart3, TrendingUp, Users, Activity, DollarSign, Package, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -175,7 +175,7 @@ const Analytics = () => {
             {overviewStats.map((stat) => (
               <Card 
                 key={stat.title}
-                className="cursor-pointer hover:shadow-lg transition-shadow group"
+                className="cursor-pointer transition-shadow group"
                 onClick={() => navigate(stat.route)}
               >
                 <CardContent className="p-6">

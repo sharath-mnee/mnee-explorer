@@ -3,16 +3,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { store } from "./store";
-import { Header } from "./components/layout/Header";
-import { Footer } from "./components/layout/Footer";
-import Dashboard from "./pages/Dashboard";
-import Transactions from "./pages/Transactions";
-import TransactionDetails from "./pages/TransactionDetails";
-import BlockDetails from "./pages/BlockDetails";
-import AddressDetails from "./pages/AddressDetails";
-import Blocks from "./pages/Blocks";
-import Analytics from "./pages/Analytics";
+import { store } from "@/store";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import Dashboard from "@/pages/Dashboard";
+import Transactions from "@/pages/Transactions";
+import TransactionDetails from "@/pages/TransactionDetails";
+import BlockDetails from "@/pages/BlockDetails";
+import AddressDetails from "@/pages/AddressDetails";
+import Blocks from "@/pages/Blocks";
+import Analytics from "@/pages/Analytics";
+import { TotalAddressesChart } from "@/components/charts/TotalAddressessChart";
+import { TotalSupplyChart } from "@/components/charts/TotalSupplyChart";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,8 @@ const AppContent = () => {
           <Route path="/address/:address" element={<AddressDetails />} />
           <Route path="/blocks" element={<Blocks />} />
           <Route path="/analytics" element={<Analytics />}/>
+          <Route path="/chart/addresses" element={<TotalAddressesChart onBack={()=> window.history.back()}/>} />
+          <Route path="/chart/total-supply" element={<TotalSupplyChart onBack={()=> window.history.back()}/>} /> 
         </Routes>
       </main>
       <Footer />
