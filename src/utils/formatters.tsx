@@ -16,7 +16,7 @@ export const formatMNEE = (num: number, decimals = 4): string => {
   return `${num.toLocaleString('en-US', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
-  })} MNEE`;
+  })} 1sat`;
 };
 
 export const formatAddress = (address: string, chars = 6): string => {

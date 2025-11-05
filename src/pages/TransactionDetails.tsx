@@ -136,11 +136,11 @@ const TransactionDetails = () => {
               <span className="text-muted-foreground">Miner Fee (MNEE-Paid)</span>
               <span className="font-semibold">{formatMNEE(tx.fee.minerFee, 6)}</span>
             </div>
-            <Separator />
+            {/* <Separator />
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">UTXO Build Cost</span>
               <span className="font-semibold">{formatMNEE(tx.fee.utxoBuildCost, 6)}</span>
-            </div>
+            </div> */}
             <Separator />
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Transfer Cost</span>
@@ -151,7 +151,7 @@ const TransactionDetails = () => {
               <span className="font-semibold">Total Fee</span>
               <span className="font-bold">
                 {formatMNEE(
-                  tx.fee.mneeFee + tx.fee.minerFee + tx.fee.utxoBuildCost + tx.fee.transferCost,
+                  tx.fee.mneeFee + tx.fee.minerFee + tx.fee.transferCost,
                   6
                 )}
               </span>

@@ -61,9 +61,9 @@ export const Header = () => {
           <Link to="/blocks" className="transition-colors hover:text-foreground/80 text-foreground/60">
             Blocks
           </Link>
-          <Link to="/holders" className="transition-colors hover:text-foreground/80 text-foreground/60">
+          {/* <Link to="/holders" className="transition-colors hover:text-foreground/80 text-foreground/60">
             Holders
-          </Link>
+          </Link> */}
           <Link to="/analytics" className="transition-colors hover:text-foreground/80 text-foreground/60">
             Analytics
           </Link>

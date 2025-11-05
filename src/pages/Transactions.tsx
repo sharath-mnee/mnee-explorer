@@ -14,7 +14,7 @@ const Transactions = () => {
   const [typeFilter, setTypeFilter] = useState('all');
   const [minAmount, setMinAmount] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
-  const [perPage, setPerPage] = useState(25);
+  const [perPage, setPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredTransactions = transactions.filter((tx) => {

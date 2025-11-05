@@ -2,7 +2,7 @@ import type { Transaction } from '@/types/transaction';
 import type { Block } from '@/types/block';
 import type { Address } from '@/types/address';
 import type { Holder } from '@/types/holder';
-import type { DashboardMetrics, GeneralInfo, ChartDataPoint } from '@/types/analytics';
+import type { DashboardMetrics, GeneralInfo, ChartDataPoint, Timeframe, TimeframeMetrics, ResponseTimeMetrics} from '@/types/analytics';
 
 const generateRandomAddress = (): string => {
   const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
@@ -70,7 +70,7 @@ export const generateMockBlocks = (count: number): Block[] => {
     blocks.push({
       height: 800000 - i,
       hash: generateRandomHash(),
-      timestamp: now - (i * 600000),
+      timestamp: now - (i * 600000), // ~10 min per block
       totalMneeTransferred: totalTransferred,
       transactionCount: txCount,
       uniqueAddresses: Math.floor(txCount * 0.7),
@@ -104,18 +104,6 @@ export const generateMockHolders = (count: number): Holder[] => {
   return holders.sort((a, b) => b.balance - a.balance);
 };
 
-export const generateDashboardMetrics = (): DashboardMetrics => {
-  return {
-    transactionVolume24h: Math.random() * 10000000 + 1000000,
-    transactionCount24h: Math.floor(Math.random() * 5000) + 1000,
-    activeAddresses24h: Math.floor(Math.random() * 1000) + 200,
-    mintActivity24h: Math.random() * 100000 + 10000,
-    burnActivity24h: Math.random() * 50000 + 5000,
-    avgTransactionFee: Math.random() * 0.01 + 0.001,
-    avgMneeTransferred: Math.random() * 1000 + 100,
-  };
-};
-
 export const generateGeneralInfo = (): GeneralInfo => {
   const totalSupply = 1000000000;
   const currentPrice = 0.998 + Math.random() * 0.004;
@@ -129,10 +117,34 @@ export const generateGeneralInfo = (): GeneralInfo => {
     pegDeviation: ((currentPrice - 1) / 1) * 100,
     totalBurned: Math.random() * 10000000 + 1000000,
     mneeV2ResponseTime: {
-      avg: Math.random() * 100 + 50,
-      min: Math.random() * 50 + 20,
-      max: Math.random() * 200 + 100,
+      '1': generateResponseTimeMetrics('1'),
+      '7': generateResponseTimeMetrics('7'),
+      '30': generateResponseTimeMetrics('30'),
+      '6M': generateResponseTimeMetrics('6M'),
+      'all': generateResponseTimeMetrics('all'),
     },
+  };
+};
+
+export const generateResponseTimeMetrics = (timeframe: Timeframe): ResponseTimeMetrics => {
+  const baseFactors = {
+    '1': 1,
+    '7': 1.05,
+    '30': 1.1,
+    '6M': 1.15,
+    'all': 1.2
+  };
+
+  const factor = baseFactors[timeframe];
+
+  const avg = (Math.random() * 100 + 50) * factor;
+  const min = (Math.random() * 30 + 20) * factor;
+  const max = (Math.random() * 200 + 100) * factor;
+
+  return {
+    avg: Math.round(avg * 10) / 10,
+    min: Math.round(min * 10) / 10,
+    max: Math.round(max * 10) / 10,
   };
 };
 
@@ -196,5 +208,38 @@ export const generateMockAddress = (address: string): Address => {
     totalSent,
     totalReceived,
     transactions,
+  };
+};
+
+export const generateTimeframeMetrics = (timeframe: Timeframe): TimeframeMetrics => {
+  // Base multipliers for different timeframes
+  const multipliers = {
+    '1': 1,
+    '7': 7,
+    '30': 30,
+    '6M': 180,
+    'all': 365
+  };
+
+  const multiplier = multipliers[timeframe];
+
+  return {
+    transactionVolume: Math.random() * 10000000 * multiplier + 1000000,
+    transactionCount: Math.floor(Math.random() * 5000 * multiplier) + 1000,
+    activeAddresses: Math.floor(Math.random() * 1000 * Math.sqrt(multiplier)) + 200,
+    mintActivity: Math.random() * 100000 * multiplier + 10000,
+    burnActivity: Math.random() * 50000 * multiplier + 5000,
+    avgTransactionFee: Math.random() * 0.01 + 0.001,
+    avgMneeTransferred: Math.random() * 1000 + 100,
+  };
+};
+
+export const generateDashboardMetrics = (): DashboardMetrics => {
+  return {
+    '1': generateTimeframeMetrics('1'),
+    '7': generateTimeframeMetrics('7'),
+    '30': generateTimeframeMetrics('30'),
+    '6M': generateTimeframeMetrics('6M'),
+    'all': generateTimeframeMetrics('all'),
   };
 };

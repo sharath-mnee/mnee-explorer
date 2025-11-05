@@ -1,13 +1,3 @@
-export interface DashboardMetrics {
-  transactionVolume24h: number;
-  transactionCount24h: number;
-  activeAddresses24h: number;
-  mintActivity24h: number;
-  burnActivity24h: number;
-  avgTransactionFee: number;
-  avgMneeTransferred: number;
-}
-
 export interface GeneralInfo {
   totalSupply: number;
   holderCount: number;
@@ -17,9 +7,11 @@ export interface GeneralInfo {
   pegDeviation: number;
   totalBurned: number;
   mneeV2ResponseTime: {
-    avg: number;
-    min: number;
-    max: number;
+    '1': ResponseTimeMetrics;
+    '7': ResponseTimeMetrics;
+    '30': ResponseTimeMetrics;
+    '6M': ResponseTimeMetrics;
+    'all': ResponseTimeMetrics;
   };
 }
 
@@ -43,4 +35,31 @@ export interface NetworkMetrics {
 export interface TimeRange {
   label: string;
   days: number;
+}
+
+
+export type Timeframe = '1' | '7' | '30' | '6M' | 'all';
+
+export interface TimeframeMetrics {
+  transactionVolume: number;
+  transactionCount: number;
+  activeAddresses: number;
+  mintActivity: number;
+  burnActivity: number;
+  avgTransactionFee: number;
+  avgMneeTransferred: number;
+}
+
+export interface DashboardMetrics {
+  '1': TimeframeMetrics;
+  '7': TimeframeMetrics;
+  '30': TimeframeMetrics;
+  '6M': TimeframeMetrics;
+  'all': TimeframeMetrics;
+}
+
+export interface ResponseTimeMetrics {
+  avg: number;
+  min: number;
+  max: number;
 }
