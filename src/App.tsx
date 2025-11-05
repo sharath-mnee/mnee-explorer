@@ -15,6 +15,7 @@ import Blocks from "@/pages/Blocks";
 import Analytics from "@/pages/Analytics";
 import { TotalAddressesChart } from "@/components/charts/TotalAddressessChart";
 import { TotalSupplyChart } from "@/components/charts/TotalSupplyChart";
+import { MarketCapChart } from "@/components/charts/MarketCapChart";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const AppContent = () => {
           <Route path="/analytics" element={<Analytics />}/>
           <Route path="/chart/addresses" element={<TotalAddressesChart onBack={()=> window.history.back()}/>} />
           <Route path="/chart/total-supply" element={<TotalSupplyChart onBack={()=> window.history.back()}/>} /> 
+          <Route path="/chart/market-cap" element={<MarketCapChart onBack={()=>window.history.back()} />} />
         </Routes>
       </main>
       <Footer />

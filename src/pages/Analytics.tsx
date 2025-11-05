@@ -124,7 +124,7 @@ const Analytics = () => {
   };
 
   return (
-    <div className="w-full py-8 flex gap-6">
+    <div className="w-full py-8 flex gap-6 sm:px-6 lg:px-8">
       {/* Sidebar Navigation */}
       <div className="hidden lg:block w-64 flex-shrink-0">
         <div className="sticky top-24 space-y-2">
@@ -233,7 +233,7 @@ const Analytics = () => {
             {marketDataCharts.map((chart) => (
               <Card 
                 key={chart.id}
-                className="cursor-pointer hover:shadow-lg transition-shadow group"
+                className="cursor-pointer transition-shadow group"
                 onClick={() => navigate(chart.route)}
               >
                 <CardHeader>
@@ -267,7 +267,7 @@ const Analytics = () => {
             {transactionCharts.map((chart) => (
               <Card 
                 key={chart.id}
-                className="cursor-pointer hover:shadow-lg transition-shadow group"
+                className="cursor-pointer transition-shadow group"
                 onClick={() => navigate(chart.route)}
               >
                 <CardHeader>

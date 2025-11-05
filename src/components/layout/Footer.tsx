@@ -36,16 +36,16 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Community</h4>
             <div className="flex space-x-4">
-              <a href="https://twitter.com/mnee" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+              <a href="https://x.com/MNEE_cash" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                 <Twitter className="h-5 w-5" />
               </a>
               <a href="https://discord.gg/mnee" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                 <MessageCircle className="h-5 w-5" />
               </a>
-              <a href="https://github.com/mnee" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+              <a href="https://github.com/mnee-xyz" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                 <Github className="h-5 w-5" />
               </a>
-              <a href="https://t.me/mnee" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
+              <a href="https://t.me/mneeusd" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                 <Send className="h-5 w-5" />
               </a>
             </div>
