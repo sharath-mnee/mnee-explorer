@@ -9,7 +9,8 @@ import {
   Flame, 
   DollarSign, 
   ArrowUpCircle,
-  Search
+  Search,
+  TimerIcon
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
@@ -59,14 +60,15 @@ const StatCardWithTimeframe = ({
         className={className}
       />
       
+      {/* Horizontal Tooltip */}
       {isHovered && (
-        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-popover border border-border rounded-lg shadow-lg z-20 px-2 py-2">
+        <div className="absolute -top-7 left-1/2 transform -translate-x-1/2 bg-popover border border-border rounded-lg shadow-lg z-20 px-1.5 py-1.5">
           <div className="flex items-center gap-1">
             {timeframes.map((tf) => (
               <button
                 key={tf.value}
                 onClick={() => setSelectedTimeframe(tf.value)}
-                className={`px-2 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                className={`px-2 py-0.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
                   selectedTimeframe === tf.value
                     ? 'bg-primary text-primary-foreground'
                     : 'hover:bg-accent text-foreground'
@@ -76,78 +78,9 @@ const StatCardWithTimeframe = ({
               </button>
             ))}
           </div>
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-border"></div>
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-[7px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-popover"></div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const PerformanceMetricsCard = ({ generalInfo }: { generalInfo: any }) => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<Timeframe>('1');
-  const [isHovered, setIsHovered] = useState(false);
-
-  const timeframes: { value: Timeframe; label: string }[] = [
-    { value: '1', label: '1D' },
-    { value: '7', label: '7D' },
-    { value: '30', label: '30D' },
-    { value: '6M', label: '6M' },
-    { value: 'all', label: 'All' }
-  ];
-
-  const currentMetrics =
-    generalInfo?.mneeV2ResponseTime?.[selectedTimeframe] ??
-    generalInfo?.mneeV2ResponseTime ??
-    { avg: 0, min: 0, max: 0 };
-
-  return (
-    <div
-      className="relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base font-semibold text-muted-foreground">
-            Performance Metrics
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent className="grid gap-4">
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">MNEE V2 Response Time (Avg)</p>
-            <p className="text-2xl font-bold">{formatDuration(currentMetrics.avg)}</p>
-          </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">Response Time (Min / Max)</p>
-            <p className="text-lg font-semibold">
-              {formatDuration(currentMetrics.min)} / {formatDuration(currentMetrics.max)}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {isHovered && (
-        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-popover border border-border rounded-lg shadow-lg z-20 px-1.5 py-1.5">
-          <div className="flex items-center gap-1">
-            {timeframes.map((tf) => (
-              <button
-                key={tf.value}
-                onClick={() => setSelectedTimeframe(tf.value)}
-                className={`px-2 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap ${
-                  selectedTimeframe === tf.value
-                    ? 'bg-primary text-primary-foreground'
-                    : 'hover:bg-accent text-foreground'
-                }`}
-              >
-                {tf.label}
-              </button>
-            ))}
-          </div>
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-border"></div>
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-[7px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-popover"></div>
+          {/* Arrow pointing down */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-1.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-border"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-[5px] w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-popover"></div>
         </div>
       )}
     </div>
@@ -183,6 +116,16 @@ const Dashboard = () => {
   
   const getAvgMneeTransferred = (timeframe: Timeframe) => 
     formatMNEE(dashboardMetrics[timeframe].avgMneeTransferred, 2);
+
+  const getAvgResponseTime = (timeframe: Timeframe) => {
+  const metrics = generalInfo?.mneeV2ResponseTime?.[timeframe] ?? generalInfo?.mneeV2ResponseTime ?? { avg: 0 };
+    return formatDuration(metrics.avg);
+  };
+
+  const getMinMaxResponseTime = (timeframe: Timeframe) => {
+    const metrics = generalInfo?.mneeV2ResponseTime?.[timeframe] ?? generalInfo?.mneeV2ResponseTime ?? { min: 0, max: 0 };
+      return `${formatDuration(metrics.min)} / ${formatDuration(metrics.max)}`;
+  };
 
   // Mock chart data
   const volumeData = Array.from({ length: 30 }, (_, i) => ({
@@ -242,84 +185,102 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* 24h Metrics */}
+      {/* Overview Metrics*/}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Overview</h2>
-
-        <div className="grid gap-6 lg:grid-cols-3">
+        <h2 className="text-lg font-semibold mb-2">Overview</h2>
+        <div className="grid gap-2 lg:grid-cols-4">
+          {/* Network Activity */}
           <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold text-muted-foreground">
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 Network Activity
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col justify-between">
-                <StatCardWithTimeframe
-                  title="Transaction Volume"
-                  getValue={getTransactionVolume}
-                  getSubtitle={getTransactionSubtitle}
-                  icon={TrendingUp}
-                  className="bg-transparent shadow-none border-none h-full flex flex-col justify-center"
-                />
-              </div>
-
-              <div className="flex flex-col justify-between">
-                <StatCardWithTimeframe
-                  title="Active Addresses"
-                  getValue={getActiveAddresses}
-                  getSubtitle={() => "Unique addresses"}
-                  icon={Users}
-                  className="bg-transparent shadow-none border-none h-full flex flex-col justify-center"
-                />
-              </div>
+            <CardContent className="space-y-2">
+              <StatCardWithTimeframe
+                title="Transaction Volume"
+                getValue={getTransactionVolume}
+                getSubtitle={getTransactionSubtitle}
+                icon={TrendingUp}
+                className="bg-transparent shadow-none border-none p-0"
+              />
+              <StatCardWithTimeframe
+                title="Active Addresses"
+                getValue={getActiveAddresses}
+                getSubtitle={() => "Unique addresses"}
+                icon={Users}
+                className="bg-transparent shadow-none border-none p-0"
+              />
             </CardContent>
           </Card>
 
-          {/* Mint & Burn Activity */}
+          {/* Token Activity */}
           <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold text-muted-foreground">
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 Token Activity
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <CardContent className="space-y-2">
               <StatCardWithTimeframe
                 title="Mint Activity"
                 getValue={getMintActivity}
                 getSubtitle={() => "New tokens minted"}
                 icon={ArrowUpCircle}
-                className="bg-transparent shadow-none border-none"
+                className="bg-transparent shadow-none border-none p-0"
               />
               <StatCardWithTimeframe
                 title="Burn Activity"
                 getValue={getBurnActivity}
                 getSubtitle={() => "Tokens burned"}
                 icon={Flame}
-                className="bg-transparent shadow-none border-none"
+                className="bg-transparent shadow-none border-none p-0"
               />
             </CardContent>
           </Card>
 
-          {/* Transaction Fee & MNEE Transferred */}
+          {/* Average Stats */}
           <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold text-muted-foreground">
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 Average Stats
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <CardContent className="space-y-2">
               <StatCardWithTimeframe
                 title="Avg Transaction Fee"
                 getValue={getAvgTransactionFee}
                 icon={DollarSign}
-                className="bg-transparent shadow-none border-none"
+                className="bg-transparent shadow-none border-none p-0"
               />
               <StatCardWithTimeframe
                 title="Avg Transferred"
                 getValue={getAvgMneeTransferred}
                 icon={Activity}
-                className="bg-transparent shadow-none border-none"
+                className="bg-transparent shadow-none border-none p-0"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Performance Metrics */}
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-md">
+            <CardHeader className="pb-1.5">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
+                Performance Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <StatCardWithTimeframe
+                title="MNEE V2 Response Time (Avg)"
+                getValue={getAvgResponseTime}
+                icon={TimerIcon}
+                className="bg-transparent shadow-none border-none p-0"
+              />
+              <StatCardWithTimeframe
+                title="Response Time (Min / Max)"
+                getValue={getMinMaxResponseTime}
+                icon={TimerIcon}
+                className="bg-transparent shadow-none border-none p-0"
               />
             </CardContent>
           </Card>
@@ -327,37 +288,64 @@ const Dashboard = () => {
       </div>
 
       {/* General Information */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">General Information</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <h2 className="text-lg font-semibold mb-2">General Information</h2>
+        <div className="grid gap-2 md:grid-cols-2">
+          {/* Token Overview */}
           <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold text-muted-foreground">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
                 Token Overview
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-4">
+            <CardContent className="space-y-2">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Supply</p>
-                <p className="text-2xl font-bold">{generalInfo.totalSupply}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Total Supply</p>
+                <p className="text-xl font-bold">{generalInfo.totalSupply}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Market Cap</p>
-                <p className="text-2xl font-bold">{formatCurrency(generalInfo.marketCap, 0)}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Market Cap</p>
+                <p className="text-xl font-bold">{formatCurrency(generalInfo.marketCap, 0)}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">FDV</p>
-                <p className="text-2xl font-bold">{formatCurrency(generalInfo.fullyDilutedValue, 0)}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">FDV</p>
+                <p className="text-xl font-bold">{formatCurrency(generalInfo.fullyDilutedValue, 0)}</p>
               </div>
             </CardContent>
           </Card>
-          <PerformanceMetricsCard generalInfo={generalInfo} />
+
+          {/* Average Transaction Value Chart */}
+          <Card className="bg-gradient-to-br from-card/95 to-card/70 border-border/30 shadow-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-semibold text-muted-foreground">
+                Avg Transaction Value (30d)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-3">
+              <ResponsiveContainer width="100%" height={160}>
+                <BarChart data={avgTxData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" opacity={0.3} />
+                  <XAxis dataKey="date" className="text-[10px]" tick={{ fontSize: 10 }} />
+                  <YAxis className="text-[10px]" tick={{ fontSize: 10 }} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))', 
+                      border: '1px solid hsl(var(--border))',
+                      fontSize: '12px'
+                    }}
+                    formatter={(value: number) => formatMNEE(value, 2)}
+                  />
+                  <Bar dataKey="avg" fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Recent Transactions */}
-        <Card>
+        {/* Recent Transactions - Full Height */}
+        <Card className="flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Recent Transactions</CardTitle>
             <Link to="/transactions" className="text-sm text-primary hover:underline">
@@ -365,7 +353,7 @@ const Dashboard = () => {
             </Link>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="flex-1 overflow-auto">
             <div className="space-y-3">
               {recentTransactions.map((tx) => (
                 <div
@@ -410,15 +398,15 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Right Side Charts */}
-        <div className="space-y-6">
+        {/* Right Side Charts - Equal Height Distribution */}
+        <div className="flex flex-col gap-6">
           {/* Transaction Volume Chart */}
-          <Card>
+          <Card className="flex-1 flex flex-col">
             <CardHeader>
               <CardTitle>Transaction Volume Over Time (30days)</CardTitle>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
+            <CardContent className="flex-1 flex items-center">
+              <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={volumeData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="date" className="text-xs" />
@@ -434,12 +422,12 @@ const Dashboard = () => {
           </Card>
 
           {/* Supply Growth Chart */}
-          <Card>
+          <Card className="flex-1 flex flex-col">
             <CardHeader>
               <CardTitle>Supply Growth (30 days)</CardTitle>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
+            <CardContent className="flex-1 flex items-center">
+              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={supplyData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="date" className="text-xs" />
@@ -455,27 +443,6 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
-
-      {/* Average Transaction Value Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Average Transaction Value (30days)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={avgTxData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis dataKey="date" className="text-xs" />
-              <YAxis className="text-xs" />
-              <Tooltip 
-                contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
-                formatter={(value: number) => formatMNEE(value, 2)}
-              />
-              <Bar dataKey="avg" fill="hsl(var(--chart-3))" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
     </div>
   );
 };
