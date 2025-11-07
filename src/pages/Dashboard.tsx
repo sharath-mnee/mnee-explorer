@@ -60,15 +60,15 @@ const StatCardWithTimeframe = ({
         className={className}
       />
       
-      {/* Horizontal Tooltip */}
+      {/* Compact Horizontal Tooltip */}
       {isHovered && (
-        <div className="absolute -top-7 left-1/2 transform -translate-x-1/2 bg-popover border border-border rounded-lg shadow-lg z-20 px-1.5 py-1.5">
-          <div className="flex items-center gap-1">
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-popover border border-border rounded shadow-lg z-20 px-1 py-1">
+          <div className="flex items-center gap-0.5">
             {timeframes.map((tf) => (
               <button
                 key={tf.value}
                 onClick={() => setSelectedTimeframe(tf.value)}
-                className={`px-2 py-0.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                className={`px-1.5 py-0.5 text-[10px] font-medium rounded transition-colors whitespace-nowrap ${
                   selectedTimeframe === tf.value
                     ? 'bg-primary text-primary-foreground'
                     : 'hover:bg-accent text-foreground'
@@ -79,8 +79,8 @@ const StatCardWithTimeframe = ({
             ))}
           </div>
           {/* Arrow pointing down */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-1.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-border"></div>
-          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-[5px] w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-popover"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-border"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-[3px] w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[3px] border-t-popover"></div>
         </div>
       )}
     </div>
