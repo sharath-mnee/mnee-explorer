@@ -39,7 +39,7 @@ export const formatCurrency = (value: number) => {
 };
 
 export const formatMNEE = (value: number) => {
-  return `${formatNumber(value)} MNEE`;
+  return `${formatNumber(value)} 1sat`;
 };
 
 // Chart Header Component

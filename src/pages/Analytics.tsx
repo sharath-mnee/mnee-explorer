@@ -18,7 +18,7 @@ const formatNumber = (value: number, decimals: number = 0) => {
 };
 
 const formatMNEE = (value: number, decimals: number = 2) => {
-  return `${formatNumber(value, decimals)} MNEE`;
+  return `${formatNumber(value, decimals)} 1sat`;
 };
 
 const Analytics = () => {
@@ -41,21 +41,7 @@ const Analytics = () => {
       icon: Activity, 
       route: '/transactions',
       change: '+8.3%'
-    },
-    { 
-      title: 'Total Supply', 
-      value: '1B MNEE', 
-      icon: Package, 
-      route: '/chart/total-supply',
-      change: '+2.1%'
-    },
-    { 
-      title: 'Market Cap', 
-      value: '$1.2B', 
-      icon: DollarSign, 
-      route: '/chart/market-cap',
-      change: '+5.7%'
-    },
+    }
   ];
 
   // Market Data Charts (simple preview data)

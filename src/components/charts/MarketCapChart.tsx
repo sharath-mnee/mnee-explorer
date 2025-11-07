@@ -12,13 +12,13 @@ export const MarketCapChart = ({ onBack }: { onBack: () => void }) => {
   const change = ((currentValue - previousValue) / previousValue * 100).toFixed(2);
 
   return (
-    <div className="container py-8">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <ChartHeader title="Market Cap" onBack={onBack} />
       
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <StatsCard title="Current Market Cap" value={formatCurrency(currentValue)} change={`+${change}%`} />
         <StatsCard title="24h Volume" value="$45.2M" change="+12.3%" />
-        <StatsCard title="Circulating Supply" value="850M MNEE" change="85% of total" />
+        <StatsCard title="Circulating Supply" value="850M 1sat" change="85% of total" />
       </div>
 
       <Card>

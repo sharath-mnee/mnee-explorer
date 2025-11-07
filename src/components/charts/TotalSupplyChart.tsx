@@ -17,7 +17,7 @@ export const TotalSupplyChart = ({ onBack }: { onBack: () => void }) => {
       
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <StatsCard title="Current Supply" value={formatMNEE(currentValue)} change={`+${change}%`} />
-        <StatsCard title="Max Supply" value="1.5B MNEE" change="Fixed cap" />
+        <StatsCard title="Max Supply" value="1.5B 1sat" change="Fixed cap" />
         <StatsCard title="Avg Growth" value={formatMNEE((currentValue - previousValue) / timeRange)} change="Per day" />
       </div>
 
