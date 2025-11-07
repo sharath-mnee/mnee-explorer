@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { BarChart3, TrendingUp, Users, Activity, DollarSign, Package, ArrowRight } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Activity, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 // Mock data generator
