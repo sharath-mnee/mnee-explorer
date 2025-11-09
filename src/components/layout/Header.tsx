@@ -17,7 +17,7 @@ export const Header = () => {
       <div className="flex items-center gap-4">
         <Link to="/" className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center">
-            <img src="/mneeLogo.png" alt="mnee-logo" />
+            <img src="/MNEE LOGO NOBG.svg" alt="mnee-logo" />
           </div>
           <span className="font-bold text-xl">{APP_NAME}</span>
         </Link>
