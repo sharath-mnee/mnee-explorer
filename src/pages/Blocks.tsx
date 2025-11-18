@@ -1,21 +1,32 @@
 import { useState } from 'react';
-import { useAppSelector } from '@/store/hooks';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { formatMNEE, formatTimeAgo } from '@/utils/formatters';
-import { Box, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Box, ChevronLeft, ChevronRight, Filter, List, LayoutGrid } from 'lucide-react';
+import { useAppSelector } from '@/store/hooks';
 
 const Blocks = () => {
-  const blocks = useAppSelector((state) => state.blocks.list);
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState('table');
   const perPage = 10;
 
+  const blocks = useAppSelector((state) => state.blocks.list);
   const paginatedBlocks = blocks.slice((currentPage - 1) * perPage, currentPage * perPage);
   const totalPages = Math.ceil(blocks.length / perPage);
 
+  const formatDate = (timestamp: number | string | Date): string => {
+    const date = new Date(timestamp);
+    return date.toISOString().replace('T', ' ').substring(0, 19);
+  };
+
+  const formatSize = (mb: number): string => {
+    if (mb < 1) {
+      return `${(mb * 1024).toFixed(2)} KB`;
+    }
+    return `${mb.toFixed(2)} MB`;
+  };
+
   return (
-    <div className="container py-8 space-y-6">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -28,68 +39,187 @@ const Blocks = () => {
         </div>
       </div>
 
-      {/* Blocks Grid */}
-      <div className="space-y-4">
-        {paginatedBlocks.map((block) => (
-          <Card key={block.height} className="transition-shadow">
-            <CardContent className="p-6">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-3 flex-1">
-                  <div className="flex items-center gap-3">
-                    <Link
-                      to={`/block/${block.height}`}
-                      className="text-2xl font-bold text-primary hover:underline"
-                    >
-                      #{block.height.toLocaleString()}
-                    </Link>
-                    <span className="text-sm text-muted-foreground">
-                      {formatTimeAgo(block.timestamp)}
-                    </span>
-                  </div>
-                  <div className="font-mono text-xs text-muted-foreground break-all">
-                    {block.hash}
-                  </div>
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">Transactions: </span>
-                      <span className="font-semibold">{block.transactionCount}</span>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Unique Addresses: </span>
-                      <span className="font-semibold">{block.uniqueAddresses}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2 md:text-right">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Total MNEE</p>
-                    <p className="text-xl font-bold">{formatMNEE(block.totalMneeTransferred, 2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Avg Transfer</p>
-                    <p className="font-semibold">{formatMNEE(block.avgTransferVolume, 2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1">Largest Tx</p>
-                    <p className="font-semibold">{formatMNEE(block.largestTransaction, 2)}</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Filter Bar */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" className="gap-2">
+            All
+          </Button>
+          <Button variant="ghost" size="sm">
+            <Filter className="h-4 w-4" />
+          </Button>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant={viewMode === 'table' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('table')}
+            className="gap-2"
+          >
+            <List className="h-4 w-4" />
+            List View
+          </Button>
+          <Button
+            variant={viewMode === 'card' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('card')}
+            className="gap-2"
+          >
+            <LayoutGrid className="h-4 w-4" />
+            Card View
+          </Button>
+        </div>
       </div>
 
+      {/* Table View */}
+      {viewMode === 'table' && (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left py-4 px-4 font-semibold text-sm">Height ↕</th>
+                    <th className="text-left py-4 px-4 font-semibold text-sm">Timestamp (UTC) ↕</th>
+                    <th className="text-left py-4 px-4 font-semibold text-sm">Age</th>
+                    <th className="text-left py-4 px-4 font-semibold text-sm">
+                      Delta Time 
+                      <span className="ml-1 text-muted-foreground cursor-help" title="Time since last block">ⓘ</span>
+                    </th>
+                    <th className="text-left py-4 px-4 font-semibold text-sm">Miner</th>
+                    <th className="text-right py-4 px-4 font-semibold text-sm">Average Fee</th>
+                    <th className="text-right py-4 px-4 font-semibold text-sm">Total Fee ↕</th>
+                    <th className="text-right py-4 px-4 font-semibold text-sm">Transactions ↕</th>
+                    <th className="text-right py-4 px-4 font-semibold text-sm">Size ↕</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedBlocks.map((block) => (
+                    <tr 
+                      key={block.height} 
+                      className="border-b last:border-b-0 hover:bg-muted/50 transition-colors"
+                    >
+                      <td className="py-4 px-4">
+                        <a
+                          href={`block/${block.height}`}
+                          className="text-primary hover:underline font-medium"
+                        >
+                          {block.height.toLocaleString()}
+                        </a>
+                      </td>
+                      <td className="py-4 px-4 text-sm">{formatDate(block.timestamp)}</td>
+                      <td className="py-4 px-4 text-sm text-muted-foreground">{block.age}</td>
+                      <td className="py-4 px-4 text-sm text-muted-foreground">{block.deltaTime}</td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${
+                            block.miner === 'SA100' ? 'bg-blue-500' :
+                            block.miner === 'CUVVE' ? 'bg-green-500' :
+                            block.miner === 'GorillaPool.com' ? 'bg-yellow-500' :
+                            'bg-gray-500'
+                          }`} />
+                          <span className="text-sm">{block.miner}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right font-mono text-sm">
+                        {block.averageFee.toFixed(8)} BSV ⇄
+                      </td>
+                      <td className="py-4 px-4 text-right font-mono text-sm">
+                        {block.totalFee.toFixed(8)} BSV ⇄
+                      </td>
+                      <td className="py-4 px-4 text-right font-medium">
+                        {block.transactionCount.toLocaleString()}
+                      </td>
+                      <td className="py-4 px-4 text-right text-sm">
+                        {formatSize(block.size)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Card View */}
+      {viewMode === 'card' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {paginatedBlocks.map((block) => (
+            <Card key={block.height} className="transition-shadow hover:shadow-md">
+              <CardContent className="p-4 space-y-3">
+                <a
+                  href={`#/block/${block.height}`}
+                  className="text-2xl font-bold text-primary hover:underline block"
+                >
+                  {block.height.toLocaleString()}
+                </a>
+
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <p className="text-muted-foreground mb-1">Timestamp (UTC)</p>
+                    <p className="font-medium">{formatDate(block.timestamp)}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Age</p>
+                    <p className="font-medium">{block.age}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Delta Time</p>
+                    <p className="font-medium">{block.deltaTime}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Miner</p>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${
+                        block.miner === 'SA100' ? 'bg-blue-500' :
+                        block.miner === 'CUVVE' ? 'bg-green-500' :
+                        block.miner === 'GorillaPool.com' ? 'bg-yellow-500' :
+                        'bg-gray-500'
+                      }`} />
+                      <span className="font-medium">{block.miner}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Average Fee</p>
+                    <p className="font-mono text-xs">{block.averageFee.toFixed(8)} BSV ⇄</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Total Fee</p>
+                    <p className="font-mono text-xs">{block.totalFee.toFixed(8)} BSV ⇄</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Transactions</p>
+                    <p className="font-medium">{block.transactionCount.toLocaleString()}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-muted-foreground mb-1">Size</p>
+                    <p className="font-medium">{formatSize(block.size)}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
       {/* Pagination */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-sm text-muted-foreground">
           Showing {((currentPage - 1) * perPage) + 1} to{' '}
           {Math.min(currentPage * perPage, blocks.length)} of {blocks.length} blocks
         </p>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
             className="gap-2"
@@ -97,8 +227,63 @@ const Blocks = () => {
             <ChevronLeft className="h-4 w-4" />
             Previous
           </Button>
+          
+          {/* Page Numbers */}
+          <div className="flex items-center gap-1">
+            {currentPage > 2 && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(1)}
+                >
+                  1
+                </Button>
+                {currentPage > 3 && <span className="px-2">...</span>}
+              </>
+            )}
+            
+            {currentPage > 1 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {currentPage - 1}
+              </Button>
+            )}
+            
+            <Button variant="default" size="sm">
+              {currentPage}
+            </Button>
+            
+            {currentPage < totalPages && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                {currentPage + 1}
+              </Button>
+            )}
+            
+            {currentPage < totalPages - 1 && (
+              <>
+                {currentPage < totalPages - 2 && <span className="px-2">...</span>}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentPage(totalPages)}
+                >
+                  {totalPages}
+                </Button>
+              </>
+            )}
+          </div>
+
           <Button
             variant="outline"
+            size="sm"
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
             className="gap-2"

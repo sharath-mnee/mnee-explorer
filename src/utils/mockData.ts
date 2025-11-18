@@ -73,6 +73,12 @@ export const generateMockBlocks = (count: number): Block[] => {
       timestamp: now - (i * 600000), // ~10 min per block
       totalMneeTransferred: totalTransferred,
       transactionCount: txCount,
+      age: `${29 + i}m ${34 + i}s`,
+      deltaTime: `${12 + (i % 10)}m ${26 + (i % 60)}s`,
+      miner: ['SA100', 'CUVVE', 'GorillaPool.com', 'Mining-Dutch'][i % 4],
+      averageFee: 0.00000121 + (i * 0.00000001),
+      totalFee: 0.00318385 + (i * 0.0001),
+      size: 2.21 + (i * 0.01),
       uniqueAddresses: Math.floor(txCount * 0.7),
       largestTransaction: Math.random() * 50000 + 1000,
       avgTransferVolume: totalTransferred / txCount,
