@@ -18,6 +18,8 @@ import { TotalSupplyChart } from "@/components/charts/TotalSupplyChart";
 import { MarketCapChart } from "@/components/charts/MarketCapChart";
 import { SupplyDistributionChart } from "@/components/charts/SupplyDistributionChart";
 import { SupplyGrowthChart } from "@/components/charts/SupplyGrowthChart";
+import { DailyTransactionsChart } from "@/components/charts/DailyTransactionsChart";
+import { UniqueAddressesChart } from "@/components/charts/UniqueAddressesChart";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const AppContent = () => {
           <Route path="/chart/market-cap" element={<MarketCapChart onBack={()=>window.history.back()} />} />
           <Route path="/chart/supply-distribution" element={<SupplyDistributionChart onBack={()=>window.history.back()} />} />
           <Route path="/chart/supply-growth" element={<SupplyGrowthChart onBack={()=>window.history.back()} />} />
+          <Route path="/chart/daily-transactions" element={<DailyTransactionsChart onBack={()=>window.history.back()} />} />
+          <Route path="/chart/unique-addresses" element={<UniqueAddressesChart onBack={()=>window.history.back()} />} />
         </Routes>
       </main>
       <Footer />
