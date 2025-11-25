@@ -122,10 +122,10 @@ const Blocks = () => {
                         </div>
                       </td>
                       <td className="py-4 px-4 text-right font-mono text-sm">
-                        {block.averageFee.toFixed(8)} BSV ⇄
+                        {block.averageFee.toFixed(8)} ⇄
                       </td>
                       <td className="py-4 px-4 text-right font-mono text-sm">
-                        {block.totalFee.toFixed(8)} BSV ⇄
+                        {block.totalFee.toFixed(8)} ⇄
                       </td>
                       <td className="py-4 px-4 text-right font-medium">
                         {block.transactionCount.toLocaleString()}

@@ -3,6 +3,7 @@ import type { Block } from '@/types/block';
 import type { Address } from '@/types/address';
 import type { Holder } from '@/types/holder';
 import type { DashboardMetrics, GeneralInfo, ChartDataPoint, Timeframe, TimeframeMetrics, ResponseTimeMetrics} from '@/types/analytics';
+import { formatTimeAgo } from './formatters';
 
 const generateRandomAddress = (): string => {
   const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
@@ -51,6 +52,7 @@ export const generateMockTransactions = (count: number): Transaction[] => {
         utxoBuildCost: Math.random() * 0.005,
         transferCost: Math.random() * 0.002,
       },
+      age: formatTimeAgo(timestamp),
       confirmations: i < count - 5 ? Math.floor(Math.random() * 100) + 1 : 0,
       timeBetweenTx: i > 0 ? Math.random() * 120 : undefined,
     });

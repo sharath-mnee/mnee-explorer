@@ -7,6 +7,7 @@ export interface Transaction {
   to: string[];
   status: 'confirmed' | 'pending' | 'failed';
   type: 'mint' | 'burn' | 'transfer';
+  age: string;
   fee: {
     mneeFee: number;
     minerFee: number;
