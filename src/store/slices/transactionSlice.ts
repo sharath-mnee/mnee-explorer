@@ -11,7 +11,7 @@ interface TransactionsState {
 }
 
 const initialState: TransactionsState = {
-  list: generateMockTransactions(1000),
+  list: generateMockTransactions(100),
   filters: {
     type: 'all',
     amountRange: { min: null, max: null },
@@ -20,7 +20,7 @@ const initialState: TransactionsState = {
   pagination: {
     page: 1,
     perPage: 25,
-    total: 1000,
+    total: 100,
   },
   loading: false,
   selectedTransaction: null,

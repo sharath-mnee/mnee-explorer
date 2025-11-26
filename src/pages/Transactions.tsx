@@ -5,11 +5,10 @@ import { Button } from '@/components/ui/button';
 import { CopyButton } from '@/components/common/CopyButton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Download, ChevronLeft, ChevronRight, Eye, ArrowRight, Box } from 'lucide-react';
-import { generateMockTransactions } from '@/utils/mockData';
+import { useAppSelector } from '@/store/hooks';
 
 const Transactions = () => {
-  const allTransactions = useMemo(() => generateMockTransactions(100), []);
-  
+  const allTransactions = useAppSelector((state) => state.transactions.list);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const statistics = useMemo(() => {
