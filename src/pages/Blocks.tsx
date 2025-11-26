@@ -76,30 +76,29 @@ const Blocks = () => {
         <Card>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full table-fixed">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-4 px-4 font-semibold text-sm">Height ↕</th>
-                    <th className="text-left py-4 px-4 font-semibold text-sm">Timestamp (UTC) ↕</th>
-                    <th className="text-left py-4 px-4 font-semibold text-sm">Age</th>
-                    <th className="text-left py-4 px-4 font-semibold text-sm">
+                    <th className="text-left py-3 px-3 font-semibold text-sm w-[90px]">Height</th>
+                    <th className="text-left py-3 px-3 font-semibold text-sm w-[180px]">Timestamp (UTC)</th>
+                    <th className="text-left py-3 px-3 font-semibold text-sm w-[80px]">Age</th>
+                    <th className="text-left py-3 px-3 font-semibold text-sm w-[110px]">
                       Delta Time 
                       <span className="ml-1 text-muted-foreground cursor-help" title="Time since last block">ⓘ</span>
                     </th>
-                    <th className="text-left py-4 px-4 font-semibold text-sm">Miner</th>
-                    <th className="text-right py-4 px-4 font-semibold text-sm">Average Fee</th>
-                    <th className="text-right py-4 px-4 font-semibold text-sm">Total Fee ↕</th>
-                    <th className="text-right py-4 px-4 font-semibold text-sm">Transactions ↕</th>
-                    <th className="text-right py-4 px-4 font-semibold text-sm">Size ↕</th>
+                    <th className="text-right py-3 px-3 font-semibold text-sm w-[120px]">Avg Fee</th>
+                    <th className="text-right py-3 px-3 font-semibold text-sm w-[120px]">Total Fee</th>
+                    <th className="text-right py-3 px-3 font-semibold text-sm w-[110px]">Tx Count</th>
+                    <th className="text-right py-3 px-3 font-semibold text-sm w-[90px]">Size</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedBlocks.map((block) => (
                     <tr 
-                      key={block.height} 
+                      key={block.height}
                       className="border-b last:border-b-0 hover:bg-muted/50 transition-colors"
                     >
-                      <td className="py-4 px-4">
+                      <td className="py-3 px-3 truncate">
                         <a
                           href={`block/${block.height}`}
                           className="text-primary hover:underline font-medium"
@@ -107,30 +106,30 @@ const Blocks = () => {
                           {block.height.toLocaleString()}
                         </a>
                       </td>
-                      <td className="py-4 px-4 text-sm">{formatDate(block.timestamp)}</td>
-                      <td className="py-4 px-4 text-sm text-muted-foreground">{block.age}</td>
-                      <td className="py-4 px-4 text-sm text-muted-foreground">{block.deltaTime}</td>
-                      <td className="py-4 px-4">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${
-                            block.miner === 'SA100' ? 'bg-blue-500' :
-                            block.miner === 'CUVVE' ? 'bg-green-500' :
-                            block.miner === 'GorillaPool.com' ? 'bg-yellow-500' :
-                            'bg-gray-500'
-                          }`} />
-                          <span className="text-sm">{block.miner}</span>
-                        </div>
+
+                      <td className="py-3 px-3 text-sm truncate">{formatDate(block.timestamp)}</td>
+
+                      <td className="py-3 px-3 text-sm text-muted-foreground whitespace-nowrap">
+                        {block.age}
                       </td>
-                      <td className="py-4 px-4 text-right font-mono text-sm">
-                        {block.averageFee.toFixed(8)} ⇄
+
+                      <td className="py-3 px-3 text-sm text-muted-foreground whitespace-nowrap">
+                        {block.deltaTime}
                       </td>
-                      <td className="py-4 px-4 text-right font-mono text-sm">
-                        {block.totalFee.toFixed(8)} ⇄
+
+                      <td className="py-3 px-3 text-right font-mono text-sm whitespace-nowrap">
+                        {block.averageFee.toFixed(4)}
                       </td>
-                      <td className="py-4 px-4 text-right font-medium">
+
+                      <td className="py-3 px-3 text-right font-mono text-sm whitespace-nowrap">
+                        {block.totalFee.toFixed(4)}
+                      </td>
+
+                      <td className="py-3 px-3 text-right font-medium">
                         {block.transactionCount.toLocaleString()}
                       </td>
-                      <td className="py-4 px-4 text-right text-sm">
+
+                      <td className="py-3 px-3 text-right text-sm whitespace-nowrap">
                         {formatSize(block.size)}
                       </td>
                     </tr>
@@ -172,26 +171,13 @@ const Blocks = () => {
                   </div>
 
                   <div>
-                    <p className="text-muted-foreground mb-1">Miner</p>
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full ${
-                        block.miner === 'SA100' ? 'bg-blue-500' :
-                        block.miner === 'CUVVE' ? 'bg-green-500' :
-                        block.miner === 'GorillaPool.com' ? 'bg-yellow-500' :
-                        'bg-gray-500'
-                      }`} />
-                      <span className="font-medium">{block.miner}</span>
-                    </div>
-                  </div>
-
-                  <div>
                     <p className="text-muted-foreground mb-1">Average Fee</p>
-                    <p className="font-mono text-xs">{block.averageFee.toFixed(8)} BSV ⇄</p>
+                    <p className="font-mono text-xs">{block.averageFee.toFixed(4)}</p>
                   </div>
 
                   <div>
                     <p className="text-muted-foreground mb-1">Total Fee</p>
-                    <p className="font-mono text-xs">{block.totalFee.toFixed(8)} BSV ⇄</p>
+                    <p className="font-mono text-xs">{block.totalFee.toFixed(4)}</p>
                   </div>
 
                   <div>
